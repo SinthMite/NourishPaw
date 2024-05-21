@@ -6,7 +6,7 @@ export default function Resources(){
         <div className="resources-Div">
             <div className="resources-list">
                 <p>
-                    ajsdkajsdfkjasldjfkasjdk
+                    Resources
                 </p>
             </div>
         </div>

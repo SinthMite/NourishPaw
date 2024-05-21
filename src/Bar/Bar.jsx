@@ -10,10 +10,10 @@ export default function Bar(){
             </div>
             <div className="bar-list">
                 <ul>
-                    <li><a href="/resources">My Pets</a></li>
-                    <li><a href="/resources">Meal Planner</a></li>
-                    <li><a href="/resources">Nutrition Tracker</a></li>
-                    <li><a href="/resources">Shopping List</a></li>
+                    <li><a href="/mypets">My Pets</a></li>
+                    <li><a href="/mealplan">Meal Planner</a></li>
+                    <li><a href="/tracker">Nutrition Tracker</a></li>
+                    <li><a href="/shoppinglist">Shopping List</a></li>
                     <li><a href="/resources">Resources</a></li>
                 </ul>
                 <ul>
