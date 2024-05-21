@@ -1,0 +1,66 @@
+:root {
+    --color-primary: #A6E3E9;  /* Soft pastel light blue */
+    --color-secondary: #A7D7C5;  /* Soft pastel green */
+    --color-accent: #fde4c3;  /* Soft pastel beige */
+    --color-accent-light: #fffbea;
+    --color-text: #333333;  /* High contrast dark text */
+    --color-background: #FFFFFF;  /* Background color */
+
+    /* Additional colors for buttons, borders, etc. */
+    --color-button: #76B2B8;  /* Slightly darker blue for buttons */
+    --color-button-text: #FFFFFF;  /* Button text color */
+    --color-border: #D3E0E4;  /* Light border color */
+}
+
+
+
+.bar{
+display: flex;
+justify-content: space-around;
+background-color: var(--color-primary);
+padding: 1rem;
+color: var(--color-button-text);
+
+.pawLogo{
+    max-width: 4rem;
+    filter: invert(1);
+}
+
+.bar-list{
+    display: flex;
+    align-items: center;
+    
+    ul{
+        display: flex;
+        justify-content: space-around;
+    }
+        li{
+            list-style-type: none;
+            margin-left: 2rem;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+    a{
+        text-decoration: none;
+        color: var(--color-button-text);
+        font-weight: 600;
+    }
+}
+button{
+    background-color: var(--color-accent);
+    color: var(--color-button-text);
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover{
+        background-color: var(--color-button-text);
+        color: var(--color-button);
+    }
+}
+
+}
+
