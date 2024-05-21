@@ -13,6 +13,7 @@ import Tracker from './Pages/Tracker/Tracker.jsx';
 function App() {
   return (
     <div className="App">
+      <div className='content'>
       <Bar />
         <Routes>
           <Route path="/" element={
@@ -51,9 +52,11 @@ function App() {
             </div>
           } />
         </Routes>
+        </div>
       <div className="links">
         <Links />
       </div>
+  
     </div>
   );
 }
