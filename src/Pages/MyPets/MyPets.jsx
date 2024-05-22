@@ -191,6 +191,11 @@ export default function MyPets() {
                     </div>
                 </section>
             </div>
+            <div className="mypets-continue-button">
+                <a href="/mealplan">
+                    <button>Continue</button>
+                </a>
+            </div>
         </div>
     );
 }

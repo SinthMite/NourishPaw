@@ -27,6 +27,16 @@
             border-radius: 2rem;
             margin-bottom: 1rem;
         }
+        input[type=submit]{
+            background-color: var(--color-button);
+            color: var(--color-button-text);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            &:hover{
+                background-color: var(--color-button-text);
+                color: var(--color-accent);
+            }
+        }
     }
 }
 
@@ -87,4 +97,22 @@
  
     }
 
+}
+.mypets-continue-button{
+
+    button{
+        background-color: rgb(118, 255, 118);
+        color: var(--color-button-text);
+        border: none;
+        border-radius: 2rem;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            background-color: var(--color-button-text);
+            color: var(--color-button);
+        }
+    }
 }

@@ -1,9 +1,11 @@
-// src/Bar/Bar.jsx
 import React from "react";
+import { Link } from 'react-router-dom';
 import Paw from '../assets/dog-paw.svg';
 import './Bar.scss';
 
-export default function Bar() {
+export default function Bar({ logInState }) {
+    const { isOpen, setIsOpen, toggle, loggedIn, setLoggedIn } = logInState;
+
     return (
         <div className="bar">
             <div>
@@ -11,15 +13,19 @@ export default function Bar() {
             </div>
             <div className="bar-list">
                 <ul>
-                    <li><a href="/mypets">My Pets</a></li>
-                    <li><a href="/mealplan">Meal Planner</a></li>
-                    <li><a href="/tracker">Nutrition Tracker</a></li>
-                    <li><a href="/shoppinglist">Shopping List</a></li>
-                    <li><a href="/resources">Resources</a></li>
+                    <li><Link to="/mypets">My Pets</Link></li>
+                    <li><Link to="/mealplan">Meal Planner</Link></li>
+                    <li><Link to="/tracker">Nutrition Tracker</Link></li>
+                    <li><Link to="/shoppinglist">Shopping List</Link></li>
+                    <li><Link to="/resources">Resources</Link></li>
                 </ul>
                 <ul>
                     <li><button>My Account</button></li>
-                    <li><button onClick={() => window.location.href = '/login'}>Log In</button></li>
+                    {loggedIn ? (
+                        <li><button onClick={toggle}>Log Out</button></li>
+                    ) : (
+                        <li><button onClick={toggle}>Log In</button></li>
+                    )}
                 </ul>
             </div>
         </div>

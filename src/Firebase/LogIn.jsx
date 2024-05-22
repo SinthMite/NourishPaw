@@ -2,14 +2,12 @@ import './LogIn.scss';
 import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
-import googleLogo from '../assetImages/google.svg';
 import { auth, db } from './Firebase';
-import Bar from '../Bar/Bar';
 
-export default function LogIn() {
+export default function LogIn({ hidden, logInState }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
+    const { setLoggedIn, loggedIn } = logInState;
 
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -80,39 +78,31 @@ export default function LogIn() {
     }
 
     return (
-        <>
-            <Bar />
-            {!loggedIn && (
-                <div className='totalscreenLogView'>
-                    <section id="logged-out-view">
-                        <div className="containerLogIn">
-                            <h1 className="app-title">NourishPaw</h1>
-                            <div className="provider-buttons">
-                                <button className="provider-btn" onClick={authSignInWithGoogle}>
-                                    <img src={googleLogo} alt="Google Logo" className="google-btn-logo" />
-                                </button>
-                            </div>
-                            <div className="auth-fields-and-buttons">
-                                <input className='inputLog' id="email-input" type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
-                                <input className='inputLog' id="password-input" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-                                <button className="primary-btn" onClick={authSignInWithEmail}>Sign in</button>
-                                <button className="secondary-btn" onClick={authCreateAccountWithEmail}>Create Account</button>
-                                <button className="tri-btn" onClick={guestLogIn}>Guest</button>
-                            </div>
+        <div className='totalscreenLogView' hidden={hidden}>
+            {!loggedIn ? (
+                <section id="logged-out-view">
+                    <div className="containerLogIn">
+                        <h1 className="app-title">Welcome</h1>
+                        <div className="provider-buttons">
+                            <button className="provider-btn" onClick={authSignInWithGoogle}>Sign in with Google</button>
                         </div>
-                    </section>
-                </div>
-            )}
-            {loggedIn && (
-                <div className='totalscreenLoggedInView'>
-                    <p>Welcome! You are logged in.</p>
-                    <button onClick={authSignOut}>Sign Out</button>
-                    <div>
-                        <p>Use ApiCatcher to get API key: {ApiCatcher()}</p>
-                        {/* Add other components or routes that you want to render when the user is logged in */}
+                        <div className="auth-fields-and-buttons">
+                            <input className='inputLog' id="email-input" type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
+                            <input className='inputLog' id="password-input" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                            <button className="primary-btn" onClick={authSignInWithEmail}>Sign in</button>
+                            <button className="secondary-btn" onClick={authCreateAccountWithEmail}>Create Account</button>
+                            <button className="tri-btn" onClick={guestLogIn}>Guest</button>
+                        </div>
                     </div>
-                </div>
+                </section>
+            ) : (
+                <section id="logged-in-view">
+                    <div className="containerLogIn">
+                        <h1 className="app-title">Welcome</h1>
+                        <button className="primary-btn" onClick={authSignOut}>Sign Out</button>
+                    </div>
+                </section>
             )}
-        </>
+        </div>
     );
 }
