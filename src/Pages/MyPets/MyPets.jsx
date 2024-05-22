@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './MyPets.scss';
+import { auth } from '../../Firebase/Firebase.jsx';
+import { savePetData, getPetsForUser, deletePetData } from '../../Firebase/FireStore.js';
 
 export default function MyPets() {
     const [dogTypeFetchData, setDogTypeFetchData] = useState([]);
@@ -14,6 +16,19 @@ export default function MyPets() {
         image: ""
     });
 
+    useEffect(() => {
+        DogTypeFetch();
+        loadPets();
+    }, []);
+
+    const loadPets = async () => {
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+            const userPets = await getPetsForUser(userId);
+            setPets(userPets);
+        }
+    };
+
     function DogTypeFetch() {
         fetch("https://dog.ceo/api/breeds/list/all")
             .then(response => response.json())
@@ -23,10 +38,6 @@ export default function MyPets() {
             })
             .catch(err => console.log(err));
     }
-
-    useEffect(() => {
-        DogTypeFetch();
-    }, []);
 
     class DogDescription {
         constructor(name, breed, age, weight, height, gender, image) {
@@ -57,15 +68,23 @@ export default function MyPets() {
             petForm.gender,
             imageUrl
         );
-        setPets([...pets, newPet]);
+        const updatedPets = [...pets, newPet];
+        setPets(updatedPets);
         setPetForm({
             name: "",
             breed: "",
             age: "",
             weight: "",
             height: "",
-            gender: "Male"
+            gender: "Male",
+            image: ""
         });
+
+        // Save pet data to Firestore
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+            await savePetData(userId, updatedPets);
+        }
     };
 
     async function fetchDogImage(breed) {
@@ -80,9 +99,14 @@ export default function MyPets() {
             return "";
         }
     }
-    const handleDelete = (index) => {
-        const updatedPets = pets.filter((_, petIndex) => petIndex !== index);
-        setPets(updatedPets);
+
+    const handleDelete = async (index) => {
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+            await deletePetData(userId, index);
+            const updatedPets = pets.filter((_, petIndex) => petIndex !== index);
+            setPets(updatedPets);
+        }
     };
 
     return (

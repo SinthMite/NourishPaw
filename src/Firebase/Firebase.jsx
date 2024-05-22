@@ -3,13 +3,15 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+    apiKey: "AIzaSyDuFYUp_U3OFSvqd5TuCBJoZie-DfLqeqM",
+    authDomain: "nourishpaws-5464b.firebaseapp.com",
+    projectId: "nourishpaws-5464b",
+    storageBucket: "nourishpaws-5464b.appspot.com",
+    messagingSenderId: "997764267425",
+    appId: "1:997764267425:web:049e7263350faa23d69fe0",
+    measurementId: "G-39MGHR24JE"
+  };
+  
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
