@@ -1,12 +1,13 @@
+// src/Bar/Bar.jsx
 import React from "react";
 import Paw from '../assets/dog-paw.svg';
-import './Bar.scss'
+import './Bar.scss';
 
-export default function Bar(){
+export default function Bar() {
     return (
         <div className="bar">
             <div>
-                <img src={Paw} alt="paw" className="pawLogo"/>
+                <img src={Paw} alt="paw" className="pawLogo" />
             </div>
             <div className="bar-list">
                 <ul>
@@ -18,9 +19,9 @@ export default function Bar(){
                 </ul>
                 <ul>
                     <li><button>My Account</button></li>
-                    <li><button>Log In</button></li>
+                    <li><button onClick={() => window.location.href = '/login'}>Log In</button></li>
                 </ul>
             </div>
         </div>
-    )
+    );
 }

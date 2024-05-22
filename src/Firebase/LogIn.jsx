@@ -2,107 +2,91 @@ import './LogIn.scss';
 import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
-import Home from '../Home/Home.jsx';
-import Header from '../Header/Header.jsx';
-import Footer from '../Footer/Footer.jsx';
 import googleLogo from '../assetImages/google.svg';
+import { auth, db } from './Firebase';
+import Bar from '../Bar/Bar';
 
-export default function LogIn({ firebase }) {
+export default function LogIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    }
+    const handleEmailChange = (e) => setEmail(e.target.value);
+    const handlePasswordChange = (e) => setPassword(e.target.value);
 
     const authSignInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(firebase.auth, provider)
-            .then((result) => {
-                setLoggedIn(true); // Set loggedIn state to true on successful login
-                window.localStorage.setItem('LogInValue', JSON.stringify(true)); // Update local storage value
+        signInWithPopup(auth, provider)
+            .then(() => {
+                setLoggedIn(true);
+                window.localStorage.setItem('LogInValue', JSON.stringify(true));
             })
-            .catch((error) => {
-                console.error("Google Auth Error:", error);
-            });
+            .catch((error) => console.error("Google Auth Error:", error));
     }
 
     const authSignInWithEmail = () => {
-        signInWithEmailAndPassword(firebase.auth, email, password)
-            .then((userCredential) => {
-                setLoggedIn(true); // Set loggedIn state to true on successful login
-                window.localStorage.setItem('LogInValue', JSON.stringify(true)); // Update local storage value
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                setLoggedIn(true);
+                window.localStorage.setItem('LogInValue', JSON.stringify(true));
                 setEmail('');
                 setPassword('');
-            }).catch((error) => {
-                console.error("Email Auth Error:", error);
-            });
+            }).catch((error) => console.error("Email Auth Error:", error));
     };
 
     const authCreateAccountWithEmail = () => {
-        createUserWithEmailAndPassword(firebase.auth, email, password)
-            .then((userCredential) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
                 setEmail('');
                 setPassword('');
-            }).catch((error) => {
-                console.error("Create Account Error:", error);
-            });
+            }).catch((error) => console.error("Create Account Error:", error));
     };
 
     const authSignOut = () => {
-        signOut(firebase.auth)
+        signOut(auth)
             .then(() => {
-                setLoggedIn(false); // Set loggedIn state to false on logout
-                window.localStorage.setItem('LogInValue', JSON.stringify(false)); // Update local storage value
-            }).catch((error) => {
-                console.error("Sign Out Error:", error);
-            });
+                setLoggedIn(false);
+                window.localStorage.setItem('LogInValue', JSON.stringify(false));
+            }).catch((error) => console.error("Sign Out Error:", error));
     };
 
-    const guestLogIn = () => {
-        setLoggedIn(true); // Set loggedIn state to true for guest login
-    }
+    const guestLogIn = () => setLoggedIn(true);
 
     useEffect(() => {
         const LogInData = window.localStorage.getItem('LogInValue');
         if (LogInData !== null && typeof JSON.parse(LogInData) === 'boolean') {
-            setLoggedIn(JSON.parse(LogInData)); // Set the loggedIn state with the retrieved value
+            setLoggedIn(JSON.parse(LogInData));
         } else {
-            setLoggedIn(false); // Default to false if no valid value found in local storage
+            setLoggedIn(false);
         }
     }, []);
 
     // Function to fetch API data
     const ApiCatcher = async () => {
-        const collectionPath = "API"; // Collection path
+        const collectionPath = "API";
         try {
-            const querySnapshot = await getDocs(collection(firebase.db, collectionPath));
-            let apiKey = ''; // Initialize apiKey variable
+            const querySnapshot = await getDocs(collection(db, collectionPath));
+            let apiKey = '';
             querySnapshot.forEach((doc) => {
                 const recipeData = doc.data().Recipe;
-                const recipeString = `${recipeData}`;
-                console.log(recipeString);
-                apiKey = recipeString; // Set apiKey to the retrieved value
+                console.log(recipeData);
+                apiKey = recipeData;
             });
-            return apiKey; // Return the apiKey value
+            return apiKey;
         } catch (error) {
             console.error("Error getting documents:", error);
-            return ''; // Return an empty string in case of error
+            return '';
         }
     }
 
     return (
         <>
+            <Bar />
             {!loggedIn && (
                 <div className='totalscreenLogView'>
                     <section id="logged-out-view">
                         <div className="containerLogIn">
-                            <h1 className="app-title">FlavorQuest</h1>
+                            <h1 className="app-title">NourishPaw</h1>
                             <div className="provider-buttons">
                                 <button className="provider-btn" onClick={authSignInWithGoogle}>
                                     <img src={googleLogo} alt="Google Logo" className="google-btn-logo" />
@@ -121,9 +105,12 @@ export default function LogIn({ firebase }) {
             )}
             {loggedIn && (
                 <div className='totalscreenLoggedInView'>
-                    <Header firebase={firebase} authSignOut={authSignOut} />
-                    <Home ApiCatcher={ApiCatcher} />
-                    <Footer />
+                    <p>Welcome! You are logged in.</p>
+                    <button onClick={authSignOut}>Sign Out</button>
+                    <div>
+                        <p>Use ApiCatcher to get API key: {ApiCatcher()}</p>
+                        {/* Add other components or routes that you want to render when the user is logged in */}
+                    </div>
                 </div>
             )}
         </>
