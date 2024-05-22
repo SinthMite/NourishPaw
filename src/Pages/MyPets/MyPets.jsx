@@ -10,7 +10,8 @@ export default function MyPets() {
         age: "",
         weight: "",
         height: "",
-        gender: "Male"
+        gender: "Male",
+        image: ""
     });
 
     function DogTypeFetch() {
@@ -71,13 +72,14 @@ export default function MyPets() {
         try {
             const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
             const data = await response.json();
-            return data.message;
+            setPetForm((prevForm) => ({ ...prevForm, image: data.message }));
+            console.log(data.message); // This will correctly log the fetched image URL
+            return data.message; // Return the fetched image URL directly
         } catch (err) {
             console.log(err);
             return "";
         }
     }
-
     const handleDelete = (index) => {
         const updatedPets = pets.filter((_, petIndex) => petIndex !== index);
         setPets(updatedPets);
