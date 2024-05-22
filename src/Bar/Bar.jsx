@@ -18,7 +18,7 @@ export default function Bar(){
                 </ul>
                 <ul>
                     <li><button>My Account</button></li>
-                    <li><button>Log Out</button></li>
+                    <li><button>Log In</button></li>
                 </ul>
             </div>
         </div>

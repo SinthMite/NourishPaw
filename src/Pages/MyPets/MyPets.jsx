@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import './MyPets.scss'
+import './MyPets.scss';
+
 export default function MyPets() {
     const [dogTypeFetchData, setDogTypeFetchData] = useState([]);
     const [pets, setPets] = useState([]);
@@ -27,13 +28,14 @@ export default function MyPets() {
     }, []);
 
     class DogDescription {
-        constructor(name, breed, age, weight, height, gender) {
+        constructor(name, breed, age, weight, height, gender, image) {
             this.name = name;
             this.breed = breed;
             this.age = age;
             this.weight = weight;
             this.height = height;
             this.gender = gender;
+            this.image = image;
         }
     }
 
@@ -42,25 +44,43 @@ export default function MyPets() {
         setPetForm({ ...petForm, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const imageUrl = await fetchDogImage(petForm.breed);
         const newPet = new DogDescription(
             petForm.name,
             petForm.breed,
             petForm.age,
             petForm.weight,
             petForm.height,
-            petForm.gender
+            petForm.gender,
+            imageUrl
         );
         setPets([...pets, newPet]);
         setPetForm({
             name: "",
-            breed: 'Select Breed',
+            breed: "",
             age: "",
             weight: "",
             height: "",
             gender: "Male"
         });
+    };
+
+    async function fetchDogImage(breed) {
+        try {
+            const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+            const data = await response.json();
+            return data.message;
+        } catch (err) {
+            console.log(err);
+            return "";
+        }
+    }
+
+    const handleDelete = (index) => {
+        const updatedPets = pets.filter((_, petIndex) => petIndex !== index);
+        setPets(updatedPets);
     };
 
     return (
@@ -76,13 +96,15 @@ export default function MyPets() {
                             placeholder="Pet Name"
                             value={petForm.name}
                             onChange={handleInputChange}
+                            required
                         />
                         <select
                             name="breed"
                             value={petForm.breed}
                             onChange={handleInputChange}
+                            required
                         >
-                            <option value="" >Select Breed</option>
+                            <option value="" disabled>Select Breed</option>
                             {dogTypeFetchData.map((breed) => (
                                 <option key={breed} value={breed}>{breed}</option>
                             ))}
@@ -93,6 +115,7 @@ export default function MyPets() {
                             placeholder="Pet Age"
                             value={petForm.age}
                             onChange={handleInputChange}
+                            required
                         />
                         <input
                             type="text"
@@ -100,6 +123,7 @@ export default function MyPets() {
                             placeholder="Pet Weight"
                             value={petForm.weight}
                             onChange={handleInputChange}
+                            required
                         />
                         <input
                             type="text"
@@ -107,11 +131,13 @@ export default function MyPets() {
                             placeholder="Pet Height"
                             value={petForm.height}
                             onChange={handleInputChange}
+                            required
                         />
                         <select
                             name="gender"
                             value={petForm.gender}
                             onChange={handleInputChange}
+                            required
                         >
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -122,10 +148,17 @@ export default function MyPets() {
                 <section className="PetListSection">
                     <div>
                         <h2>Pet List</h2>
-                        <ul>
+                        <ul className="PetListUnordered">
                             {pets.map((pet, index) => (
                                 <li key={index}>
-                                    {`${pet.name}, ${pet.breed}, ${pet.age} years old, ${pet.weight} kg, ${pet.height} cm, ${pet.gender}`}
+                                    <p>{`Name: ${pet.name}`}</p>
+                                    <p>{`Breed: ${pet.breed}`}</p>
+                                    <p>{`Age: ${pet.age} years old`}</p>
+                                    <p>{`Weight: ${pet.weight} kg`}</p>
+                                    <p>{`Height: ${pet.height} cm`}</p>
+                                    <p>{`Gender: ${pet.gender}`}</p>
+                                    {pet.image && <img src={pet.image} alt={`${pet.breed}`} className="petListImage" />}
+                                    <button onClick={() => handleDelete(index)} className="PetListDeleteButton">Delete</button>
                                 </li>
                             ))}
                         </ul>
