@@ -137,7 +137,7 @@ export default function MyPets() {
                         <input
                             type="text"
                             name="weight"
-                            placeholder="Pet Weight"
+                            placeholder="Pet Weight(LB)"
                             value={petForm.weight}
                             onChange={handleInputChange}
                             required
@@ -145,7 +145,7 @@ export default function MyPets() {
                         <input
                             type="text"
                             name="height"
-                            placeholder="Pet Height"
+                            placeholder="Pet Height(In)"
                             value={petForm.height}
                             onChange={handleInputChange}
                             required
@@ -171,8 +171,8 @@ export default function MyPets() {
                                     <p>{`Name: ${pet.name}`}</p>
                                     <p>{`Breed: ${pet.breed}`}</p>
                                     <p>{`Age: ${pet.age} years old`}</p>
-                                    <p>{`Weight: ${pet.weight} kg`}</p>
-                                    <p>{`Height: ${pet.height} cm`}</p>
+                                    <p>{`Weight: ${pet.weight} LB`}</p>
+                                    <p>{`Height: ${pet.height} In`}</p>
                                     <p>{`Gender: ${pet.gender}`}</p>
                                     {pet.image && <img src={pet.image} alt={`${pet.breed}`} className="petListImage" />}
                                     <button onClick={() => handleDelete(index)} className="PetListDeleteButton">Delete</button>
