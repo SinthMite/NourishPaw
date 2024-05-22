@@ -18,15 +18,18 @@ export default function MyPets() {
 
     useEffect(() => {
         DogTypeFetch();
-        loadPets();
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loadPets(user.uid);
+            } else {
+                setPets([]); // Clear pets array when user logs out
+            }
+        });
     }, []);
 
-    const loadPets = async () => {
-        const userId = auth.currentUser?.uid;
-        if (userId) {
-            const userPets = await getPetsForUser(userId);
-            setPets(userPets);
-        }
+    const loadPets = async (userId) => {
+        const userPets = await getPetsForUser(userId);
+        setPets(userPets);
     };
 
     function DogTypeFetch() {
@@ -39,18 +42,6 @@ export default function MyPets() {
             .catch(err => console.log(err));
     }
 
-    class DogDescription {
-        constructor(name, breed, age, weight, height, gender, image) {
-            this.name = name;
-            this.breed = breed;
-            this.age = age;
-            this.weight = weight;
-            this.height = height;
-            this.gender = gender;
-            this.image = image;
-        }
-    }
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setPetForm({ ...petForm, [name]: value });
@@ -59,15 +50,15 @@ export default function MyPets() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const imageUrl = await fetchDogImage(petForm.breed);
-        const newPet = new DogDescription(
-            petForm.name,
-            petForm.breed,
-            petForm.age,
-            petForm.weight,
-            petForm.height,
-            petForm.gender,
-            imageUrl
-        );
+        const newPet = {
+            name: petForm.name,
+            breed: petForm.breed,
+            age: petForm.age,
+            weight: petForm.weight,
+            height: petForm.height,
+            gender: petForm.gender,
+            image: imageUrl
+        };
         const updatedPets = [...pets, newPet];
         setPets(updatedPets);
         setPetForm({
