@@ -3,9 +3,9 @@ import './MyPets.scss';
 import { auth } from '../../Firebase/Firebase.jsx';
 import { savePetData, getPetsForUser, deletePetData } from '../../Firebase/FireStore.js';
 
-export default function MyPets() {
+export default function MyPets({ petState }) {
     const [dogTypeFetchData, setDogTypeFetchData] = useState([]);
-    const [pets, setPets] = useState([]);
+    const {pets, setPets} = petState;
     const [petForm, setPetForm] = useState({
         name: "",
         breed: "",

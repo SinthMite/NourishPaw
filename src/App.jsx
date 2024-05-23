@@ -14,7 +14,8 @@ import LogIn from './Firebase/LogIn.jsx';
 function App() {
   const [isOpen, setIsOpen] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [pets, setPets] = useState([]);
+  const [userId, setUserId] = useState('');
   const toggle = () => {
     setIsOpen(!isOpen);
   }
@@ -33,11 +34,18 @@ function App() {
     loggedIn,
     setLoggedIn,
   };
-
+  const petState = {
+    pets,
+    setPets,
+  }
+  const userIdState = {
+    userId,
+    setUserId,
+  }
   return (
       <div className="App">
         <Bar logInState={logInState} />
-        <LogIn hidden={isOpen} logInState={logInState} />
+        <LogIn hidden={isOpen} logInState={logInState} userIdState={userIdState} />
         <div className="content">
           <Routes>
             <Route path="/" element={
@@ -52,12 +60,12 @@ function App() {
             } />
             <Route path="/mealplan" element={
               <div className="mealplan">
-                <MealPlan />
+                <MealPlan petState={petState} userIdState={userIdState} />
               </div>
             } />
             <Route path="/mypets" element={
               <div className="mypets">
-                <MyPets />
+                <MyPets petState={petState} />
               </div>
             } />
             <Route path="/shoppinglist" element={

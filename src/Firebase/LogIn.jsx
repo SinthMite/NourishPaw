@@ -4,31 +4,33 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, Go
 import { collection, getDocs } from 'firebase/firestore';
 import { auth, db } from './Firebase';
 
-export default function LogIn({ hidden, logInState }) {
+export default function LogIn({ hidden, logInState, userIdState }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setLoggedIn, loggedIn } = logInState;
-
+    const {userId, setUserId} = userIdState;
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
     const authSignInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
-            .then(() => {
+            .then((result) => {
+                setUserId(result.user.uid); // Extract userId
                 setLoggedIn(true);
-                window.localStorage.setItem('LogInValue', JSON.stringify(true));
+                // Store userId locally or in context
             })
             .catch((error) => console.error("Google Auth Error:", error));
-    }
-
+    };
+    
     const authSignInWithEmail = () => {
         signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
+            .then((result) => {
+                setUserId(result.user.uid); // Extract userId
                 setLoggedIn(true);
-                window.localStorage.setItem('LogInValue', JSON.stringify(true));
                 setEmail('');
                 setPassword('');
+                // Store userId locally or in context
             }).catch((error) => console.error("Email Auth Error:", error));
     };
 
@@ -44,7 +46,6 @@ export default function LogIn({ hidden, logInState }) {
         signOut(auth)
             .then(() => {
                 setLoggedIn(false);
-                window.localStorage.setItem('LogInValue', JSON.stringify(false));
             }).catch((error) => console.error("Sign Out Error:", error));
     };
 
