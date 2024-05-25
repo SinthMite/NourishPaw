@@ -108,6 +108,27 @@
         padding: 0.5rem 1rem;
         font-size: 1.2rem;
         font-weight: 800;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            background-color: var(--color-button-text);
+            color: var(--color-button);
+        }
+    }
+}
+
+.mypets-back-button{
+
+    button{
+        background-color: rgb(255, 118, 118);
+        color: var(--color-button-text);
+        border: none;
+        border-radius: 2rem;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
         &:hover{

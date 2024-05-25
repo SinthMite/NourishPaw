@@ -1,0 +1,91 @@
+/* MealPlan Component Styles */
+.mealplan-div {
+    margin: 20px;
+}
+
+.mealplan-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.pet-list-unordered {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* BreedDetails Component Styles */
+.pet-details {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+}
+
+.pet-details p {
+    margin: 5px 0;
+}
+
+.pet-list-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 10px 0;
+}
+
+.breed-info {
+    margin-top: 10px;
+}
+
+.shopping-section {
+    margin-top: 20px;
+}
+
+.shopping-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.shopping-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.shopping-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.shopping-snippet {
+    margin: 0;
+    color: #555;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}

@@ -16,7 +16,6 @@ export default function Bar({ logInState }) {
                     <li><Link to="/mypets">My Pets</Link></li>
                     <li><Link to="/mealplan">Meal Planner</Link></li>
                     <li><Link to="/tracker">Nutrition Tracker</Link></li>
-                    <li><Link to="/shoppinglist">Shopping List</Link></li>
                     <li><Link to="/resources">Resources</Link></li>
                 </ul>
                 <ul>

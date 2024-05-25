@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './MyPets.scss';
 import { auth } from '../../Firebase/Firebase.jsx';
-import { savePetData, getPetsForUser, deletePetData } from '../../Firebase/FireStore.js';
+import { savePetData, getPetsForUser, deletePetEntry } from '../../Firebase/FireStore.js';
 
 export default function MyPets({ petState }) {
     const [dogTypeFetchData, setDogTypeFetchData] = useState([]);
@@ -94,7 +94,7 @@ export default function MyPets({ petState }) {
     const handleDelete = async (index) => {
         const userId = auth.currentUser?.uid;
         if (userId) {
-            await deletePetData(userId, index);
+            await deletePetEntry(userId, index);
             const updatedPets = pets.filter((_, petIndex) => petIndex !== index);
             setPets(updatedPets);
         }
@@ -185,6 +185,11 @@ export default function MyPets({ petState }) {
             <div className="mypets-continue-button">
                 <a href="/mealplan">
                     <button>Continue</button>
+                </a>
+            </div>
+            <div className="mypets-back-button">
+                <a href="/">
+                    <button>Back</button>
                 </a>
             </div>
         </div>

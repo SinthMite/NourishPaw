@@ -5,7 +5,7 @@ import { db } from './Firebase';
 export const savePetData = async (userId, petData) => {
     try {
         const userDocRef = doc(db, 'users', userId);
-        await setDoc(userDocRef, { pets: petData }, { merge: false });
+        await setDoc(userDocRef, { pets: petData }, { merge: true });
         console.log('Pet data saved successfully');
     } catch (err) {
         console.error('Error saving pet data:', err);
@@ -29,20 +29,23 @@ export const getPetsForUser = async (userId) => {
     }
 };
 
-// Delete a specific pet
-export const deletePetData = async (userId, petIndex) => {
+// Delete a specific pet entry
+export const deletePetEntry = async (userId, petName, entryIndex) => {
     try {
         const userDocRef = doc(db, 'users', userId);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
             const pets = userDoc.data().pets;
-            pets.splice(petIndex, 1);
-            await updateDoc(userDocRef, { pets });
-            console.log('Pet data deleted successfully');
+            const petIndex = pets.findIndex(pet => pet.name === petName);
+            if (petIndex > -1) {
+                pets[petIndex].dailyEntries.splice(entryIndex, 1);
+                await updateDoc(userDocRef, { pets });
+                console.log('Pet entry deleted successfully');
+            }
         } else {
             console.log('No such document!');
         }
     } catch (err) {
-        console.error('Error deleting pet data:', err);
+        console.error('Error deleting pet entry:', err);
     }
 };
