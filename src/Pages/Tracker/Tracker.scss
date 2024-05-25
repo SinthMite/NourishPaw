@@ -1,0 +1,86 @@
+.tracker-list{
+
+    .PetListUnordered{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .PetListUnordered button{
+         background-color: var(--color-button);
+         color: var(--color-button-text);
+         border: none;
+         border-radius: 2rem;
+         padding: 0.5rem 1rem;
+         font-size: 1.2rem;
+         font-weight: 800;
+         cursor: pointer;
+         transition: all 0.2s ease-in-out;
+         &:hover{
+             background-color: var(--color-button-text);
+             color: var(--color-button);
+         }
+ 
+    }
+
+
+}    
+.selected-pet-details{
+
+        h2{
+            font-weight: 800;
+            font-size: 2rem;
+        }
+        p{
+            font-weight: 800;
+            font-size: 1.2rem;
+
+        }
+        img{
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50vw;  /* Set your desired width */
+            aspect-ratio: 1;
+            margin: auto;  /* Center the container */
+          }
+        form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 0.5rem solid var(--color-accent);
+            input{
+                width: 30%;
+                padding: 0.5rem 1rem;
+                font-size: 1.2rem;
+                font-weight: 800;
+                border: none;
+                border-radius: 2rem;
+                margin-bottom: 1rem;
+                background-color: rgb(237, 237, 237);
+            }
+            button{
+                background-color: var(--color-button);
+                color: var(--color-button-text);
+                border: none;
+                border-radius: 2rem;
+                padding: 0.5rem 1rem;
+                font-size: 1.2rem;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                &:hover{
+                    background-color: var(--color-button-text);
+                    color: var(--color-button);
+                }
+            }
+        }
+    }

@@ -3,7 +3,7 @@ import { getPetsForUser, savePetData, deletePetEntry } from '../../Firebase/Fire
 import { auth } from '../../Firebase/Firebase.jsx';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-
+import './Tracker.scss'
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Tracker({ petState, weightState, caloriesState }) {
@@ -48,8 +48,8 @@ export default function Tracker({ petState, weightState, caloriesState }) {
         {
           label: `${pet.name}'s Daily Calorie Intake`,
           data: [consumedCalories, petCalories - consumedCalories],
-          backgroundColor: ['#FF6384', '#36A2EB'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB']
+          backgroundColor: ['#FF6384', '#ffe4ea'],
+          hoverBackgroundColor: ['#f8345e', '#fdcdd7']
         }
       ]
     };
@@ -115,8 +115,9 @@ export default function Tracker({ petState, weightState, caloriesState }) {
           <h2>{`Selected Pet: ${selectedPet.name}`}</h2>
           <p>{`Weight: ${selectedPet.weight} LB`}</p>
           {selectedPet.image && <img src={selectedPet.image} alt={`${selectedPet.breed}`} className="selectedPetImage" />}
-          <Doughnut data={generateChartData(selectedPet)} />
-          <form onSubmit={handleEntrySubmit}>
+          <div className="chart-container">
+            <Doughnut data={generateChartData(selectedPet)} />
+          </div>          <form onSubmit={handleEntrySubmit}>
             <input type="hidden" name="petName" value={selectedPet.name} />
             <label>
               Item Name:
