@@ -12,55 +12,138 @@
     --color-border: #D3E0E4;  /* Light border color */
 }
 
-
-
-.bar{
-display: flex;
-justify-content: space-around;
-background-color: var(--color-primary);
-padding: 1rem;
-color: var(--color-button-text);
-
-.pawLogo{
-    max-width: 4rem;
-    filter: invert(1);
-}
-
-.bar-list{
+.bar {
     display: flex;
-    align-items: center;
-    
-    ul{
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-primary);
+    padding: 1rem;
+    color: var(--color-button-text);
+
+    .pawLogo {
+        max-width: 4rem;
+        filter: invert(1);
+    }
+
+    .bar-header {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--color-button-text);
+            cursor: pointer;
+        }
+    }
+
+    .bar-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0;
+            margin: 0.5rem 0;
+
+            li {
+                list-style-type: none;
+                margin: 1rem 0;
+                font-size: 1.1rem;
+                font-weight: 800;
+            }
+
+            a {
+                text-decoration: none;
+                color: var(--color-button-text);
+                font-weight: 600;
+            }
+        }
+
+        &.open {
+            display: flex;
+        }
+    }
+
+    .account-buttons {
         display: flex;
         justify-content: space-around;
-    }
-        li{
-            list-style-type: none; 
-            margin-left: 2rem;
-            font-size: 1.1rem;
+        width: 100%;
+        margin-top: 1rem;
+
+        button {
+            background-color: var(--color-accent);
+            color: var(--color-button-text);
+            border: none;
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
             font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                background-color: var(--color-button-text);
+                color: var(--color-button);
+            }
         }
-    a{
-        text-decoration: none;
-        color: var(--color-button-text);
-        font-weight: 600;
+    }
+
+    @media (min-width: 800px) {
+        flex-direction: row;
+        align-items: center;
+
+        .bar-header {
+            .menu-toggle {
+                display: none;
+            }
+        }
+
+        .bar-list {
+            flex-direction: row;
+
+            ul {
+                flex-direction: row;
+                align-items: center;
+
+                li {
+                    margin: 0 1rem;
+                }
+            }
+
+            &.open {
+                display: flex;
+            }
+        }
+
+        .account-buttons {
+            margin-top: 0;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .bar-header {
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        .bar-list {
+            display: none;
+            width: 100%;
+
+            &.open {
+                display: flex;
+            }
+        }
     }
 }
-button{
-    background-color: var(--color-accent);
-    color: var(--color-button-text);
-    border: none;
-    border-radius: 2rem;
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    &:hover{
-        background-color: var(--color-button-text);
-        color: var(--color-button);
-    }
-}
-
-}
-
