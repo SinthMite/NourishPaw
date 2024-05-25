@@ -10,7 +10,9 @@ export default function Banner(){
                 <h1>Nourish<span>-</span>Paw</h1>
                 <p>Welcome to NourishPaw! Our goal is to help you provide the best nutrition for your pets. Discover personalized meal plans, nutritional tips, and expert advice to keep your furry friends healthy and happy. Explore our app to ensure your pets receive the balanced diet they deserve.</p>
                 <div>
-                    <button>Learn More</button>
+                <a href="/mealplan">
+                    <button>Start Now</button>
+                </a>
                 </div>
             </div>
 
