@@ -7,6 +7,15 @@
     margin-bottom: 2rem;
     padding: 1rem;
 }
+.provider-btn{
+    background-color: white;
+
+    img{
+        width: 6rem;
+        margin-right: 1rem;
+    }
+
+}
 
 .auth-fields-and-buttons{
     display: flex;
@@ -27,5 +36,17 @@
         border-radius: 2rem;
         margin-bottom: 1rem;
         background-color: rgb(237, 237, 237);
+    }
+    button{
+        width: 30%;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        border: none;
+        border-radius: 2rem;
+        margin-bottom: 1rem;
+        background-color: lightblue;
+        color: white;
+        cursor: pointer;
     }
 }

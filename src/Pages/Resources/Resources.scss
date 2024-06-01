@@ -1,0 +1,36 @@
+.about-us {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  
+    &-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+  
+    &-subtitle {
+      font-size: 2em;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #34495e;
+    }
+  
+    &-paragraph {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #7f8c8d;
+    }
+  
+    &-list {
+      list-style-type: disc;
+      margin-left: 20px;
+  
+      &-item {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: #16a085;
+      }
+    }
+  }
+  

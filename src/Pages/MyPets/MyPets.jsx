@@ -122,9 +122,12 @@ export default function MyPets({ petState }) {
                             required
                         >
                             <option value="" disabled>Select Breed</option>
-                            {dogTypeFetchData.map((breed) => (
-                                <option key={breed} value={breed}>{breed}</option>
-                            ))}
+                            {dogTypeFetchData.map((breed) => {
+                                const formattedBreed = breed.charAt(0).toUpperCase() + breed.slice(1);
+                                return (
+                                    <option key={breed} value={breed}>{formattedBreed}</option>
+                                );
+                                })}
                         </select>
                         <input
                             type="text"

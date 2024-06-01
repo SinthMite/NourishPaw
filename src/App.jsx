@@ -12,7 +12,7 @@ import LogIn from './Firebase/LogIn.jsx';
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(null);
   const [pets, setPets] = useState([]);
   const [userId, setUserId] = useState('');
   const [underweight, setUnderweight] = useState(0);
@@ -28,6 +28,8 @@ function App() {
     const LogInData = window.localStorage.getItem('LogInValue');
     if (LogInData !== null && typeof JSON.parse(LogInData) === 'boolean') {
       setLoggedIn(JSON.parse(LogInData));
+    } else {
+      setLoggedIn(false);
     }
   }, []);
 

@@ -1,16 +1,39 @@
 import './LogIn.scss';
 import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { collection, getDocs } from 'firebase/firestore';
-import { auth, db } from './Firebase';
+import { auth } from './Firebase';
+import googleLogo from '../assets/google.webp';
 
 export default function LogIn({ hidden, logInState, userIdState }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { setLoggedIn, loggedIn } = logInState;
-    const {userId, setUserId} = userIdState;
+    const { userId, setUserId } = userIdState;
+
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
+
+    // Retrieve login state from local storage on component mount
+    useEffect(() => {
+        const logInData = window.localStorage.getItem('LogInValue');
+        if (logInData !== null) {
+            const parsedLogInData = JSON.parse(logInData);
+            if (typeof parsedLogInData === 'boolean') {
+                console.log('Loaded logInData from localStorage:', parsedLogInData); // Debugging line
+                setLoggedIn(parsedLogInData);
+            }
+        } else {
+            setLoggedIn(false);
+        }
+    }, [setLoggedIn]);
+
+    // Save login state to local storage whenever it changes
+    useEffect(() => {
+        if (loggedIn !== null) {
+            console.log('Setting logInData to localStorage:', loggedIn); // Debugging line
+            window.localStorage.setItem('LogInValue', JSON.stringify(loggedIn));
+        }
+    }, [loggedIn]);
 
     const authSignInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
@@ -18,11 +41,11 @@ export default function LogIn({ hidden, logInState, userIdState }) {
             .then((result) => {
                 setUserId(result.user.uid); // Extract userId
                 setLoggedIn(true);
-                // Store userId locally or in context
+                console.log('Google Sign-In successful. User ID:', result.user.uid); // Debugging line
             })
             .catch((error) => console.error("Google Auth Error:", error));
     };
-    
+
     const authSignInWithEmail = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((result) => {
@@ -30,8 +53,9 @@ export default function LogIn({ hidden, logInState, userIdState }) {
                 setLoggedIn(true);
                 setEmail('');
                 setPassword('');
-                // Store userId locally or in context
-            }).catch((error) => console.error("Email Auth Error:", error));
+                console.log('Email Sign-In successful. User ID:', result.user.uid); // Debugging line
+            })
+            .catch((error) => console.error("Email Auth Error:", error));
     };
 
     const authCreateAccountWithEmail = () => {
@@ -39,53 +63,36 @@ export default function LogIn({ hidden, logInState, userIdState }) {
             .then(() => {
                 setEmail('');
                 setPassword('');
-            }).catch((error) => console.error("Create Account Error:", error));
+                console.log('Account creation successful'); // Debugging line
+            })
+            .catch((error) => console.error("Create Account Error:", error));
     };
 
     const authSignOut = () => {
         signOut(auth)
             .then(() => {
                 setLoggedIn(false);
-            }).catch((error) => console.error("Sign Out Error:", error));
+                setUserId(null); // Clear userId on sign out
+                console.log('Sign out successful'); // Debugging line
+            })
+            .catch((error) => console.error("Sign Out Error:", error));
     };
 
-    const guestLogIn = () => setLoggedIn(true);
-
-    useEffect(() => {
-        const LogInData = window.localStorage.getItem('LogInValue');
-        if (LogInData !== null && typeof JSON.parse(LogInData) === 'boolean') {
-            setLoggedIn(JSON.parse(LogInData));
-        } else {
-            setLoggedIn(false);
-        }
-    }, []);
-
-    // Function to fetch API data
-    const ApiCatcher = async () => {
-        const collectionPath = "API";
-        try {
-            const querySnapshot = await getDocs(collection(db, collectionPath));
-            let apiKey = '';
-            querySnapshot.forEach((doc) => {
-                const recipeData = doc.data().Recipe;
-                console.log(recipeData);
-                apiKey = recipeData;
-            });
-            return apiKey;
-        } catch (error) {
-            console.error("Error getting documents:", error);
-            return '';
-        }
-    }
+    const guestLogIn = () => {
+        setLoggedIn(true);
+        console.log('Guest login successful'); // Debugging line
+    };
 
     return (
         <div className='totalscreenLogView' hidden={hidden}>
-            {!loggedIn ? (
+            {loggedIn === false ? (
                 <section id="logged-out-view">
                     <div className="containerLogIn">
                         <h1 className="app-title">Welcome</h1>
                         <div className="provider-buttons">
-                            <button className="provider-btn" onClick={authSignInWithGoogle}>Sign in with Google</button>
+                            <button className="provider-btn" onClick={authSignInWithGoogle}>
+                                <img src={googleLogo} alt="Google Logo" className='googleLogo' />
+                            </button>
                         </div>
                         <div className="auth-fields-and-buttons">
                             <input className='inputLog' id="email-input" type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
