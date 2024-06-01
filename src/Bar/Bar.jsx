@@ -28,6 +28,7 @@ export default function Bar({ logInState }) {
                 </ul>
             </div>
             <div className="account-buttons">
+                <button>My Account</button>
                 {loggedIn ? (
                     <button onClick={toggle}>Log Out</button>
                 ) : (
