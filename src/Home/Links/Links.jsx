@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+
 import './Links.scss'
 
 
@@ -7,10 +9,8 @@ export default function Links(){
         <div className="links-Div">
             <div className="links-list">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/resources">Resources</Link></li>
                 </ul>
             </div>
         </div>
