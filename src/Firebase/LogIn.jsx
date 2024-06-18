@@ -60,7 +60,7 @@ export default function LogIn({ hidden, logInState, userIdState }) {
 
     const authCreateAccountWithEmail = () => {
         createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
+            .then((userCredential) => {
                 setEmail('');
                 setPassword('');
                 console.log('Account creation successful'); // Debugging line
