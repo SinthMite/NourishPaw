@@ -79,8 +79,15 @@ export default function LogIn({ hidden, logInState, userIdState }) {
     };
 
     const guestLogIn = () => {
-        setLoggedIn(true);
-        console.log('Guest login successful'); // Debugging line
+        const guestEmail = 'tester@test.com';
+        const guestPassword = 'password';
+        signInWithEmailAndPassword(auth, guestEmail, guestPassword)
+            .then((result) => {
+                setUserId(result.user.uid); // Extract userId
+                setLoggedIn(true);
+                console.log('Guest login successful. User ID:', result.user.uid); // Debugging line
+            })
+            .catch((error) => console.error("Guest Auth Error:", error));
     };
 
     return (
@@ -99,7 +106,7 @@ export default function LogIn({ hidden, logInState, userIdState }) {
                             <input className='inputLog' id="password-input" type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
                             <button className="primary-btn" onClick={authSignInWithEmail}>Sign in</button>
                             <button className="secondary-btn" onClick={authCreateAccountWithEmail}>Create Account</button>
-                            <button className="tri-btn" onClick={guestLogIn}>Guest</button>
+                            <button className="tri-btn" onClick={guestLogIn}>Demo</button>
                         </div>
                     </div>
                 </section>
