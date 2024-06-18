@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getPetsForUser, savePetData, deletePetEntry } from '../../Firebase/FireStore.js';
+import { getPetsForUser, savePetData } from '../../Firebase/FireStore.js';
 import { auth } from '../../Firebase/Firebase.jsx';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import './Tracker.scss'
+import './Tracker.scss';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Tracker({ petState, weightState, caloriesState }) {
@@ -15,8 +15,12 @@ export default function Tracker({ petState, weightState, caloriesState }) {
 
   const loadPets = async (userId) => {
     const userPets = await getPetsForUser(userId);
-    setPets(userPets);
-    const updatedCaloriesData = userPets.map(pet => ({ petName: pet.name, calories: pet.calories }));
+    const petsWithEntries = userPets.map(pet => ({
+      ...pet,
+      dailyEntries: pet.dailyEntries || []
+    }));
+    setPets(petsWithEntries);
+    const updatedCaloriesData = petsWithEntries.map(pet => ({ petName: pet.name, calories: pet.calories }));
     setCaloriesData(updatedCaloriesData);
   };
 
@@ -39,9 +43,19 @@ export default function Tracker({ petState, weightState, caloriesState }) {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (selectedPet) {
+      const updatedPet = pets.find(pet => pet.name === selectedPet.name);
+      if (updatedPet) {
+        setSelectedPet(updatedPet);
+        setDailyEntries(updatedPet.dailyEntries);
+      }
+    }
+  }, [pets]);
+
   const generateChartData = (pet) => {
     const petCalories = caloriesData.find(data => data.petName === pet.name)?.calories || 0;
-    const consumedCalories = dailyEntries.filter(entry => entry.petName === pet.name).reduce((acc, entry) => acc + entry.amount, 0);
+    const consumedCalories = pet.dailyEntries.reduce((acc, entry) => acc + entry.amount, 0);
     return {
       labels: ['Calories Consumed', 'Remaining Calories'],
       datasets: [
@@ -59,17 +73,17 @@ export default function Tracker({ petState, weightState, caloriesState }) {
     event.preventDefault();
     const { petName, itemName, amount } = event.target.elements;
     const newEntry = { petName: petName.value, itemName: itemName.value, amount: parseFloat(amount.value) };
-    const updatedEntries = [...dailyEntries, newEntry];
-    setDailyEntries(updatedEntries);
 
     const user = auth.currentUser;
     if (user) {
       const updatedPets = pets.map(pet => {
         if (pet.name === petName.value) {
+          const updatedEntries = [...pet.dailyEntries, newEntry];
           return { ...pet, dailyEntries: updatedEntries };
         }
         return pet;
       });
+      setPets(updatedPets);
       await savePetData(user.uid, updatedPets);
     }
 
@@ -79,11 +93,9 @@ export default function Tracker({ petState, weightState, caloriesState }) {
   const handleDeleteEntry = async (entryIndex) => {
     const user = auth.currentUser;
     if (user && selectedPet) {
-      const updatedEntries = dailyEntries.filter((_, index) => index !== entryIndex);
-      setDailyEntries(updatedEntries);
-
       const updatedPets = pets.map(pet => {
         if (pet.name === selectedPet.name) {
+          const updatedEntries = pet.dailyEntries.filter((_, index) => index !== entryIndex);
           return { ...pet, dailyEntries: updatedEntries };
         }
         return pet;
@@ -117,7 +129,8 @@ export default function Tracker({ petState, weightState, caloriesState }) {
           {selectedPet.image && <img src={selectedPet.image} alt={`${selectedPet.breed}`} className="selectedPetImage" />}
           <div className="chart-container">
             <Doughnut data={generateChartData(selectedPet)} />
-          </div>          <form onSubmit={handleEntrySubmit}>
+          </div>
+          <form onSubmit={handleEntrySubmit}>
             <input type="hidden" name="petName" value={selectedPet.name} />
             <label>
               Item Name:
@@ -131,15 +144,13 @@ export default function Tracker({ petState, weightState, caloriesState }) {
           </form>
           <h3>Daily Entries</h3>
           <ul className="daily-entries-list">
-            {dailyEntries
-              .filter(entry => entry.petName === selectedPet.name)
-              .map((entry, index) => (
-                <li key={index} className="daily-entry">
-                  <p>{`Item: ${entry.itemName}`}</p>
-                  <p>{`Calories: ${entry.amount}`}</p>
-                  <button onClick={() => handleDeleteEntry(index)}>Delete</button>
-                </li>
-              ))}
+            {dailyEntries.map((entry, index) => (
+              <li key={index} className="daily-entry">
+                <p>{`Item: ${entry.itemName}`}</p>
+                <p>{`Calories: ${entry.amount}`}</p>
+                <button onClick={() => handleDeleteEntry(index)}>Delete</button>
+              </li>
+            ))}
           </ul>
         </div>
       )}
