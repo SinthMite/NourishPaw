@@ -183,7 +183,7 @@ const BreedDetails = ({ pet, findBreedInfo }) => {
 
   useEffect(() => {
     const fetchShoppingResults = async () => {
-      const apiKey = 'AIzaSyARQTBhPD7pd8yO-HWC3iQzSFDUnEqWSpY';
+      const apiKey = import.meta.env.VITE_SHOPPING_API_KEY;
       const searchEngineId = 'f362cbcad97df4478';
       const DogFood = `Dog Food for ${pet.breed} that is ${weightStatus}`;
       const searchTerm = `${DogFood} site:amazon.com OR site:chewy.com OR site:petsmart.com OR site:petco.com`;

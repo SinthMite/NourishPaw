@@ -3,15 +3,15 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDuFYUp_U3OFSvqd5TuCBJoZie-DfLqeqM",
-    authDomain: "nourishpaws-5464b.firebaseapp.com",
-    projectId: "nourishpaws-5464b",
-    storageBucket: "nourishpaws-5464b.appspot.com",
-    messagingSenderId: "997764267425",
-    appId: "1:997764267425:web:049e7263350faa23d69fe0",
-    measurementId: "G-39MGHR24JE"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
   };
-  
+  console.log(firebaseConfig.apiKey)
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
