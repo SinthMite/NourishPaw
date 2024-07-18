@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import Paw from '../assets/dog-paw.svg';
 import './Bar.scss';
 
-export default function Bar({ logInState }) {
+export default function Bar({ logInState, menuState }) {
     const { isOpen, toggle, loggedIn } = logInState;
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+    const { menuOpen, setMenuOpen, showPopup, setShowPopup, } = menuState;
 
     const handleMenuToggle = () => {
         setMenuOpen(!menuOpen);
@@ -36,7 +35,7 @@ export default function Bar({ logInState }) {
                     <li><Link to="/mypets" onClick={handleLinkClick}>My Pets</Link></li>
                     <li><Link to="/mealplan" onClick={handleLinkClick}>Meal Planner</Link></li>
                     <li><Link to="/tracker" onClick={handleLinkClick}>Nutrition Tracker</Link></li>
-                    <li><Link to="/resources" onClick={handleLinkClick}>Resources</Link></li>
+                    <li><Link to="/resources">Resources</Link></li>
                 </ul>
             </div>
             {showPopup && (

@@ -19,7 +19,8 @@ function App() {
   const [atWeight, setAtWeight] = useState(0);
   const [overweight, setOverweight] = useState(0);
   const [caloriesData, setCaloriesData] = useState([]);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
   }
@@ -32,6 +33,13 @@ function App() {
       setLoggedIn(false);
     }
   }, []);
+
+  const menuState = {
+    menuOpen,
+    setMenuOpen,
+    showPopup,
+    setShowPopup,
+  }
 
   const logInState = {
     isOpen,
@@ -63,13 +71,13 @@ function App() {
 
   return (
     <div className="App">
-      <Bar logInState={logInState} />
+      <Bar logInState={logInState} menuState={menuState} />
       <LogIn hidden={isOpen} logInState={logInState} userIdState={userIdState} />
       <div className="content">
         <Routes>
           <Route path="/" element={
             <div className="banner">
-              <Banner />
+              <Banner logInState={logInState} menuState={menuState}/>
             </div>
           } />
           <Route path="/resources" element={
